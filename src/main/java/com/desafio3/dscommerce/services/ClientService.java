@@ -11,6 +11,8 @@ import com.desafio3.dscommerce.entities.Client;
 import com.desafio3.dscommerce.repository.ClientRepository;
 import com.desafio3.dscommerce.services.exceptions.ResourceNotFoundException;
 
+import jakarta.persistence.EntityNotFoundException;
+
 @Service
 public class ClientService {
 
@@ -35,6 +37,19 @@ public class ClientService {
         copyDtoToEntity(dto, entity);
         entity = repository.save(entity);
         return new ClientDTO(entity);
+    }
+
+    @Transactional
+    public ClientDTO update(Long id, ClientDTO dto){
+        try {
+            Client entity = repository.getReferenceById(id);
+            copyDtoToEntity(dto, entity);
+            entity = repository.save(entity);
+            return new ClientDTO(entity);
+        } catch (EntityNotFoundException e){
+            throw new ResourceNotFoundException("Recurso não encontrado.");
+        }
+        
     }
 
     private void copyDtoToEntity(ClientDTO dto, Client entity) {
