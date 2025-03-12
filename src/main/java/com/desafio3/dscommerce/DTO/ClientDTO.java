@@ -8,13 +8,20 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.PastOrPresent;
+import jakarta.validation.constraints.Size;
 
 public class ClientDTO {
 
     private Long id;
+    
+    @NotBlank(message = "Não pode ser vazio.")
     private String name;
     private String cpf;
     private Double income;
+
+    @PastOrPresent(message = "Insira uma data correta.")
     private LocalDate birthDate;
     private Integer children;
 
